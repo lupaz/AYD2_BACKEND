@@ -27,7 +27,6 @@ class Api_Movil extends CI_Controller {
 		$this->load->model('catedratico_model');
 		
 		//$_POST = json_decode (file_get_contents ('php://input'), true);
-		
 		$nombre = $_POST['nombre'];
 		$apellido = $_POST['apellido'];
 		$contrasena = $_POST['contrasena'];
@@ -74,4 +73,78 @@ class Api_Movil extends CI_Controller {
 		//}
 	}
 
+	public function get_calificacion(){
+		$this->load->model('catedratico_model');
+		$id_personal = $_POST['id_personal'];
+		$result = $this->catedratico_model->getCalificacion($id_personal);
+		//if(!empty($result)){
+			echo  json_encode($result);
+		//}else{
+			//echo  json_encode(array('status' => 'success'));
+		//}
+	}
+
+	
+
+	public function calificacion_personal(){
+		$this->load->model('catedratico_model');
+		$carnet = $_POST['carnet'];
+		$id_personal = $_POST['id_personal'];
+		$result = $this->catedratico_model->calificacion($carnet,$id_personal);
+		if(!empty($result)){
+			echo  json_encode($result);
+		}else{
+			echo  json_encode(array('status' => 'success'));
+		}
+	}
+
+	public function update_calificacion()
+	{
+		$this->load->model('catedratico_model');
+		
+		//$_POST = json_decode (file_get_contents ('php://input'), true);
+		$carnet = $_POST['carnet'];
+		$id_personal = $_POST['id_personal'];
+		$dominio = $_POST['dominio'];
+		$puntualidad = $_POST['puntualidad'];
+		$responsabilidad = $_POST['responsabilidad'];
+		$respesto =  $_POST['respeto'];
+		$didactica = $_POST['didactica'];
+		$comentario = $_POST['comentario'];
+		//echo  json_encode($_POST['nombre'].'=>'.$_POST['contrasena']);
+        $result = $this->catedratico_model-> updateCalificacion($carnet, $id_personal, $dominio,$puntualidad,$responsabilidad,$respesto,$didactica,$comentario);
+        if ($result == FALSE ) {
+            echo  json_encode(array('status' => 'failed'));
+        } else {
+            echo  json_encode(array('status' => 'success'));
+        }
+	}
+
+	public function set_calificacion()
+	{
+		$this->load->model('catedratico_model');
+		//$_POST = json_decode (file_get_contents ('php://input'), true);
+		$carnet = $_POST['carnet'];
+		$id_personal = $_POST['id_personal'];
+		$dominio = $_POST['dominio'];
+		$puntualidad = $_POST['puntualidad'];
+		$responsabilidad = $_POST['responsabilidad'];
+		$respesto =  $_POST['respeto'];
+		$didactica = $_POST['didactica'];
+		$comentario = $_POST['comentario'];
+		//echo  json_encode($_POST['nombre'].'=>'.$_POST['contrasena']);
+        $result = $this->catedratico_model-> setCalificacion($carnet, $id_personal, $dominio,$puntualidad,$responsabilidad,$respesto,$didactica,$comentario);
+        if ($result == FALSE ){
+            echo  json_encode(array('status' => 'failed'));
+        }else{
+            echo  json_encode(array('status' => 'success'));
+        }
+	}
+
+	public function get_comentarios(){
+		$this->load->model('catedratico_model');
+		$id_personal = $_POST['id_personal'];
+		$result = $this->catedratico_model->getComentarios($id_personal);
+		echo  json_encode($result);
+	}
 }

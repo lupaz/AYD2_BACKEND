@@ -37,4 +37,41 @@ class Catedratico_model extends CI_Model{
         return $query->result();
     }
 
+    public function getCalificacion($id_personal){
+        $login_user_proc = "CALL calificacion_total(?)";
+        $data = array('id_personal'=> $id_personal);
+        $query = $this->db->query($login_user_proc,$data);
+        return $query->result();
+    }
+
+    public function calificacion($carnet,$id_personal){
+        $login_user_proc = "CALL calificacion(?,?)";
+        $data = array('carnet'=>$carnet,'id_personal'=> $id_personal);
+        $query = $this->db->query($login_user_proc,$data);
+        return $query->result();
+    }
+
+    public function updateCalificacion($carnet, $id_personal, $dominio,$puntualidad,$responsabilidad,$respesto,$didactica,$comentario){
+        $update_cal_proc = "CALL update_calificacion(?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = array('carnet' => $carnet, 'id_personal' => $id_personal, 'dominio' => $dominio, 'puntualidad' => $puntualidad,'responsabilidad'=> $responsabilidad,
+                        'respeto'=>$respesto, 'didactica'=>$didactica, 'comentario'=>$comentario);
+        $query = $this->db->query($update_cal_proc, $data);
+        return TRUE; 
+    }
+
+    public function setCalificacion($carnet, $id_personal, $dominio,$puntualidad,$responsabilidad,$respesto,$didactica,$comentario){
+        $update_cal_proc = "CALL set_calificacion(?, ?, ?, ?, ?, ?, ?, ?)";
+        $data = array('carnet' => $carnet, 'id_personal' => $id_personal, 'dominio' => $dominio, 'puntualidad' => $puntualidad,'responsabilidad'=> $responsabilidad,
+                        'respeto'=>$respesto, 'didactica'=>$didactica, 'comentario'=>$comentario);
+        $query = $this->db->query($update_cal_proc, $data);
+        return TRUE; 
+    }
+
+    public function getComentarios($id_personal){
+        $comentarios_proc = "CALL get_comentarios(?)";
+        $data = array('id_personal'=> $id_personal);
+        $query = $this->db->query($comentarios_proc,$data);
+        return $query->result();
+    }
+
 }
