@@ -74,4 +74,18 @@ class Catedratico_model extends CI_Model{
         return $query->result();
     }
 
+    public function searchDocente($nombre){
+        $search_doc_proc = "CALL search_docente(?)";
+        $data = array('nombre'=> $nombre);
+        $query = $this->db->query($search_doc_proc,$data);
+        return $query->result();
+    }
+
+    public function searchCurso($codigo){
+        $search_cur_proc = "CALL search_curso(?)";
+        $data = array('codigo'=> $codigo);
+        $query = $this->db->query($search_cur_proc,$data);
+        return $query->result();
+    }
+
 }

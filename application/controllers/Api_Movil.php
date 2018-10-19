@@ -147,4 +147,27 @@ class Api_Movil extends CI_Controller {
 		$result = $this->catedratico_model->getComentarios($id_personal);
 		echo  json_encode($result);
 	}
+
+	public function search_docente(){
+		$this->load->model('catedratico_model');
+		$nombre = $_POST['nombre'];
+		$result = $this->catedratico_model->searchDocente($nombre);
+		//if(!empty($result)){
+			echo  json_encode($result);
+		//}else{
+		//	echo  json_encode(array('status' => 'success'));
+		//}
+	}
+
+	public function search_curso(){
+		$this->load->model('catedratico_model');
+		$codigo = $_POST['codigo'];
+		$result = $this->catedratico_model->searchCurso($codigo);
+		//if(!empty($result)){
+			echo  json_encode($result);
+		//}else{
+			//echo  json_encode(array('status' => 'success'));
+		//}
+	}
+
 }
