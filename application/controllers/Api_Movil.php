@@ -25,7 +25,6 @@ class Api_Movil extends CI_Controller {
 	public function add_estudiante()
 	{
 		$this->load->model('catedratico_model');
-		
 		//$_POST = json_decode (file_get_contents ('php://input'), true);
 		$nombre = $_POST['nombre'];
 		$apellido = $_POST['apellido'];
@@ -35,7 +34,6 @@ class Api_Movil extends CI_Controller {
 		$carrera =  $_POST['carrera'];
 
 		//echo  json_encode($_POST['nombre'].'=>'.$_POST['contrasena']);
-
         $result = $this->catedratico_model-> addUsuario($nombre, $apellido, $carnet,$cui,$contrasena,$carrera);
 
         if ($result == FALSE ) {
@@ -74,17 +72,25 @@ class Api_Movil extends CI_Controller {
 	}
 
 	public function get_calificacion(){
-		$this->load->model('catedratico_model');
-		$id_personal = $_POST['id_personal'];
-		$result = $this->catedratico_model->getCalificacion($id_personal);
-		//if(!empty($result)){
+		
+		if (isset($_POST["id_personal"]) && !empty($_POST["id_personal"])) {
+			$this->load->model('catedratico_model');	
+			$id_personal = $_POST['id_personal'];
+			$result = $this->catedratico_model->getCalificacion($id_personal);
 			echo  json_encode($result);
-		//}else{
-			//echo  json_encode(array('status' => 'success'));
-		//}
+		}else{
+			$entrada = file_get_contents('php://input');
+			$entrada = json_decode($entrada);
+			$id_personal = $entrada->id_personal;			
+			if( !empty($id_personal)){
+				$this->load->model('catedratico_model');
+				$result = $this->catedratico_model->getCalificacion($id_personal);
+				echo  json_encode($result);
+			}else{
+				echo json_encode(array('status' => 'failed','description'=>'parametros incorrectos en la peticion','code'=>'301'));
+			}
+		}
 	}
-
-	
 
 	public function calificacion_personal(){
 		$this->load->model('catedratico_model');
