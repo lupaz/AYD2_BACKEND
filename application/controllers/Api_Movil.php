@@ -191,7 +191,13 @@ class Api_Movil extends CI_Controller {
 				if($i<6){
 					$tmp[$key] = $valor;
 				}elseif($i<9){
-					$tmp2[$key] = $valor;
+					if($i == 7){
+						$tmp2['nombre'] = $valor;
+					}elseif($i == 8){
+						$tmp2['apellido'] = $valor;
+					}else{
+						$tmp2[$key] = $valor;
+					}
 				}else{
 					$tmp3[$key] = $valor;
 				}
