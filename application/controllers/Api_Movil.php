@@ -71,27 +71,6 @@ class Api_Movil extends CI_Controller {
 		//}
 	}
 
-	public function get_calificacion(){
-		
-		if (isset($_POST["id_personal"]) && !empty($_POST["id_personal"])) {
-			$this->load->model('catedratico_model');	
-			$id_personal = $_POST['id_personal'];
-			$result = $this->catedratico_model->getCalificacion($id_personal);
-			echo  json_encode($result);
-		}else{
-			$entrada = file_get_contents('php://input');
-			$entrada = json_decode($entrada);
-			$id_personal = $entrada->id_personal;			
-			if( !empty($id_personal)){
-				$this->load->model('catedratico_model');
-				$result = $this->catedratico_model->getCalificacion($id_personal);
-				echo  json_encode($result);
-			}else{
-				echo json_encode(array('status' => 'failed','description'=>'parametros incorrectos en la peticion','code'=>'301'));
-			}
-		}
-	}
-
 	public function calificacion_personal(){
 		$this->load->model('catedratico_model');
 		$carnet = $_POST['carnet'];
@@ -175,5 +154,56 @@ class Api_Movil extends CI_Controller {
 			//echo  json_encode(array('status' => 'success'));
 		//}
 	}
+
+	//==================================================================================
+
+	public function get_calificacion(){
+		
+		if (isset($_POST["id_personal"]) && !empty($_POST["id_personal"])) {
+			$this->load->model('catedratico_model');	
+			$id_personal = $_POST['id_personal'];
+			$result = $this->catedratico_model->getCalificacion($id_personal);
+			echo  json_encode($result);
+		}else{
+			$entrada = file_get_contents('php://input');
+			$entrada = json_decode($entrada);
+			$id_personal = $entrada->id_personal;			
+			if( !empty($id_personal)){
+				$this->load->model('catedratico_model');
+				$result = $this->catedratico_model->getCalificacion($id_personal);
+				echo  json_encode($result);
+			}else{
+				echo json_encode(array('status' => 'failed','description'=>'parametros incorrectos en la peticion','code'=>'301'));
+			}
+		}
+	}
+
+	public function get_calificaciones(){
+		$this->load->model('catedratico_model');	
+		$result = $this->catedratico_model->getCalificaciones();
+		$General = array();
+		foreach($result as $res){
+			$tmp= array();
+			$tmp2= array();
+			$tmp3 = array();
+			$i=0;
+			foreach($res as $key=>$valor){
+				if($i<6){
+					$tmp[$key] = $valor;
+				}elseif($i<9){
+					$tmp2[$key] = $valor;
+				}else{
+					$tmp3[$key] = $valor;
+				}
+				$i=$i+1;
+			}
+			$tmp['estudiante'] =$tmp2;
+			$tmp['docente'] = $tmp3;
+			array_push($General,$tmp);
+		}
+		echo  json_encode($General);
+	}
+
+
 
 }

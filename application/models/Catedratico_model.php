@@ -37,12 +37,7 @@ class Catedratico_model extends CI_Model{
         return $query->result();
     }
 
-    public function getCalificacion($id_personal){
-        $login_user_proc = "CALL calificacion_total(?)";
-        $data = array('id_personal'=> $id_personal);
-        $query = $this->db->query($login_user_proc,$data);
-        return $query->result();
-    }
+   
 
     public function calificacion($carnet,$id_personal){
         $login_user_proc = "CALL calificacion(?,?)";
@@ -85,6 +80,20 @@ class Catedratico_model extends CI_Model{
         $search_cur_proc = "CALL search_curso(?)";
         $data = array('codigo'=> $codigo);
         $query = $this->db->query($search_cur_proc,$data);
+        return $query->result();
+    }
+//==================================================================================================>
+    
+    public function getCalificacion($id_personal){
+        $login_user_proc = "CALL calificacion_total(?)";
+        $data = array('id_personal'=> $id_personal);
+        $query = $this->db->query($login_user_proc,$data);
+        return $query->result();
+    }
+
+    public function getCalificaciones(){
+        $calificaciones_proc = "CALL get_calificaciones()";
+        $query = $this->db->query($calificaciones_proc);
         return $query->result();
     }
 
